@@ -105,13 +105,7 @@ public class Main {
 	}
 
 	public void extrato() {
-		// Listar todas as transações dessa conta
-		List<Transacao> list = contaLogada.getTransacoes();
-		
-		for (int i = 0; i < list.size(); i++) {
-			Transacao transacao = list.get(i);
-			transacao.print();
-		}
+		contaLogada.extrato();
 		
 		System.out.println("");
 		
@@ -119,14 +113,10 @@ public class Main {
 	}
 
 	public void saldo() {
-		// Listar valor de saldo atual
-		DecimalFormat df = new DecimalFormat("#.00");
-		System.out.println("Saldo atual: $" + df.format(contaLogada.getSaldo()));
+		contaLogada.saldo();
 	}
 
 	public void deposito() {
-		// Escrever texto pedindo valor a ser depositado
-		// Ler valor
 		double val = Leitor.readDouble("Entre com o valor a ser depositado: ");
 		
 		contaLogada.deposito(val);
@@ -135,8 +125,6 @@ public class Main {
 	}
 
 	public void saque() {
-		// Escrever texto pedindo valor a ser retirado
-		// Ler valor
 		double val = Leitor.readDouble("Entre com o valor a ser sacado: ");
 		
 		try {
@@ -150,12 +138,9 @@ public class Main {
 	}
 
 	public void transferir() {
-		// Escrever texto pedindo conta para onde valor sera transferido
-		// Ler conta
 		long numContaDestino = Leitor.readLong("Entre com a conta que vai receber a transferência: ");
 		Conta contaDestino = pegarConta(numContaDestino);
-		// Verificar se é uma conta valida, e se não for, pedir novamente ou perguntar
-		// se quer sair
+
 		if(contaDestino == null) {
 			String op = Leitor.readString("Não existe uma conta cadastrada com esse número. Deseja entrar com outra conta (S / N)? ");
 			if(op.equalsIgnoreCase("s")) {

@@ -1,5 +1,6 @@
 package com.diogo.opet.conta;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,18 @@ public class Conta
         
         this.transacoes = new ArrayList<Transacao>();
         this.transferencias = new ArrayList<Transferencia>();
+    }
+    
+    public void extrato() {
+		for (int i = 0; i < transacoes.size(); i++) {
+			Transacao transacao = transacoes.get(i);
+			transacao.print();
+		}
+    }
+    
+    public void saldo() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		System.out.println("Saldo atual: " + df.format(this.saldo)+"$");
     }
 
     public void saque(double valor) throws FundosInsuficientesException {

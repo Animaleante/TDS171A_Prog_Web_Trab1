@@ -1,5 +1,6 @@
 package com.diogo.opet.transacao;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,12 +29,13 @@ public class Transacao
 
 	public void print() {
 		SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		DecimalFormat df = new DecimalFormat("#.00");
 		// Print
 		// - Data
 		// - Horario
 		// - Valor
 		// - Tipo
-		System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - " + (this.tipo == Transacao.TIPO_TRANSACAO_DEBITO || this.tipo == Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO ? "Débito : -" : "Crédito: +") + this.val);
+		System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - " + (this.tipo == Transacao.TIPO_TRANSACAO_DEBITO || this.tipo == Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO ? "Débito : -" : "Crédito: +") + df.format(this.val)+"$");
 	}
 
 	/**
