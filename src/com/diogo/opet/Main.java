@@ -1,5 +1,6 @@
 package com.diogo.opet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import com.diogo.opet.conta.ContaCorrente;
 import com.diogo.opet.conta.ContaPoupanca;
 import com.diogo.opet.transacao.Transacao;
 import com.diogo.opet.utils.Leitor;
+
+import exceptions.FundosInsuficientesException;
 
 public class Main {
 	List<Conta> contas;
@@ -25,6 +28,12 @@ public class Main {
 		contas.add(new ContaPoupanca(456, 2.46));
 		contas.add(new ContaCorrente(111, 1327.52));
 		
+		while(mainLoop()) {}
+		
+		System.out.println("Aplicação finalizada.");
+	}
+	
+	public boolean mainLoop() {
 		if(logarConta()) {
 			// Escolher entre:
 			// - Extrato (Listar ultimas transções)
@@ -38,20 +47,20 @@ public class Main {
 			while(op != 6) {
 				op = menuConta();
 			}
+			
+			String sOp = Leitor.readString("Deseja entrar com uma nova conta (S / N)? ");
+			if(sOp.equalsIgnoreCase("s"))
+				return true;
 		}
+		
+		return false;
 	}
 
 	public boolean logarConta() {
-		int numConta = Leitor.readInt("Entre com o número da conta, ou com 0 para sair: ");
+		long numConta = Leitor.readLong("Entre com o número da conta, ou com 0 para sair: ");
 		
-		for (int i = 0; i < contas.size(); i++) {
-			if(contas.get(i).getNumeroConta() == numConta) {
-				contaLogada = contas.get(i);
-				break;
-			}
-		}
+		contaLogada = pegarConta(numConta);
 		
-		// Se numero existir, colocar essa conta encontrada como conta atual e retorna true
 		if(contaLogada != null) {
 			return true;
 		}
@@ -103,41 +112,79 @@ public class Main {
 			Transacao transacao = list.get(i);
 			transacao.print();
 		}
+		
+		System.out.println("");
+		
+		saldo();
 	}
 
 	public void saldo() {
 		// Listar valor de saldo atual
-		System.out.println("Saldo atual: $" + contaLogada.getSaldo());
+		DecimalFormat df = new DecimalFormat("#.00");
+		System.out.println("Saldo atual: $" + df.format(contaLogada.getSaldo()));
 	}
 
 	public void deposito() {
 		// Escrever texto pedindo valor a ser depositado
 		// Ler valor
-		// Criar transação do tipo credito com o valor fornecido
-		// Adicionar transação a historico de conta
-		// Atualizar saldo da conta
+		double val = Leitor.readDouble("Entre com o valor a ser depositado: ");
+		
+		contaLogada.deposito(val);
+		
+		saldo();
 	}
 
 	public void saque() {
 		// Escrever texto pedindo valor a ser retirado
 		// Ler valor
-		// Criar transação do tipo debito com o valor fornecido
-		// Adicionar transação a historico de conta
-		// Atualizar saldo da conta
+		double val = Leitor.readDouble("Entre com o valor a ser sacado: ");
+		
+		try {
+			contaLogada.saque(val);
+			
+			saldo();
+		} catch (FundosInsuficientesException e) {
+			//e.printStackTrace();
+			System.out.println("Não foi possível realizar essa operação. Você não tem saldo suficiente em sua conta.");
+		}
 	}
 
 	public void transferir() {
 		// Escrever texto pedindo conta para onde valor sera transferido
 		// Ler conta
+		long numContaDestino = Leitor.readLong("Entre com a conta que vai receber a transferência: ");
+		Conta contaDestino = pegarConta(numContaDestino);
 		// Verificar se é uma conta valida, e se não for, pedir novamente ou perguntar
 		// se quer sair
-		// Escrever texto pedindo valor a ser transferido
-		// Ler valor
-		// Criar transação do tipo debito com o valor fornecido
-		// Adicionar transação a historico de conta
-		// Atualizar saldo da conta
-		// Criar transação do tipo credito com o valor fornecido para a outra
-		// Adicionar transação a historico de conta
-		// Atualizar saldo da conta
+		if(contaDestino == null) {
+			String op = Leitor.readString("Não existe uma conta cadastrada com esse número. Deseja entrar com outra conta (S / N)? ");
+			if(op.equalsIgnoreCase("s")) {
+				transferir();
+			}
+		} else {
+			double val = Leitor.readDouble("Entre com o valor a ser transferido: ");
+			try {
+				contaLogada.saqueTransferencia(val);
+				
+				contaDestino.depositoTransferencia(val);
+				
+				System.out.println("Transferência realizada com sucesso!");
+				
+				saldo();
+			} catch (FundosInsuficientesException e) {
+				//e.printStackTrace();
+				System.out.println("Não foi possível realizar essa operação. Você não tem saldo suficiente em sua conta.");
+			}
+		}
+	}
+	
+	public Conta pegarConta(long numConta) {
+		for (int i = 0; i < contas.size(); i++) {
+			if(contas.get(i).getNumeroConta() == numConta) {
+				return contas.get(i);
+			}
+		}
+		
+		return null;
 	}
 }

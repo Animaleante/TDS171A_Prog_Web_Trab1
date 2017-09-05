@@ -1,5 +1,6 @@
 package com.diogo.opet.transacao;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transacao
@@ -9,12 +10,16 @@ public class Transacao
 	public static final int TIPO_TRANSACAO_TRANSFERENCIA_DEBITO = 2;
 	public static final int TIPO_TRANSACAO_TRANSFERENCIA_CREDITO = 3;
 	
+	public static int id = 0;
+	
 //	private long timestamp;
+	private int idTransacao;
 	private Date data;
 	private double val;
 	private int tipo;
 	
 	public Transacao(int tipo, double val) {
+		this.idTransacao = Transacao.id++;
 		this.tipo = tipo;
 		this.val = val;
 //		this.timestamp = System.currentTimeMillis();
@@ -22,11 +27,13 @@ public class Transacao
 	}
 
 	public void print() {
+		SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		// Print
 		// - Data
 		// - Horario
 		// - Valor
 		// - Tipo
+		System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - " + (this.tipo == Transacao.TIPO_TRANSACAO_DEBITO || this.tipo == Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO ? "Débito : -" : "Crédito: +") + this.val);
 	}
 
 	/**
@@ -69,5 +76,19 @@ public class Transacao
 	 */
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	/**
+	 * @return the idTransacao
+	 */
+	public int getIdTransacao() {
+		return idTransacao;
+	}
+
+	/**
+	 * @param idTransacao the idTransacao to set
+	 */
+	public void setIdTransacao(int idTransacao) {
+		this.idTransacao = idTransacao;
 	}
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import com.diogo.opet.transacao.Transacao;
 import com.diogo.opet.transacao.Transferencia;
 
+import exceptions.FundosInsuficientesException;
+
 public class Conta
 {
     public static final int TIPO_CONTA_CORRENTE = 0;
@@ -28,12 +30,54 @@ public class Conta
         this.transferencias = new ArrayList<Transferencia>();
     }
 
-    public void saque(double valor) {
-    	// TODO
+    public void saque(double valor) throws FundosInsuficientesException {
+    	if(saldo - valor < 0)
+    		throw new FundosInsuficientesException("Você não possui saldo suficiente para realizar esse saque.");
+    	
+		// Criar transação do tipo debito com o valor fornecido
+    	Transacao t = new Transacao(Transacao.TIPO_TRANSACAO_DEBITO, valor);
+    	
+		// Adicionar transação a historico de conta
+    	transacoes.add(t);
+    	
+		// Atualizar saldo da conta
+    	saldo = Math.round((saldo - valor)*100)/100;
     }
 
+	public void saqueTransferencia(double valor) throws FundosInsuficientesException {
+    	if(saldo - valor < 0)
+    		throw new FundosInsuficientesException("Você não possui saldo suficiente para realizar esse saque.");
+    	
+		// Criar transação do tipo debito com o valor fornecido
+    	Transacao t = new Transacao(Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO, valor);
+    	
+		// Adicionar transação a historico de conta
+    	transacoes.add(t);
+    	
+		// Atualizar saldo da conta
+    	saldo = Math.round((saldo - valor)*100)/100;
+	}
+
     public void deposito(double valor) {
-    	// TODO
+		// Criar transação do tipo credito com o valor fornecido
+    	Transacao t = new Transacao(Transacao.TIPO_TRANSACAO_CREDITO, valor);
+    	
+		// Adicionar transação a historico de conta
+    	transacoes.add(t);
+    	
+		// Atualizar saldo da conta
+    	saldo = Math.round((saldo + valor)*100)/100;
+    }
+
+    public void depositoTransferencia(double valor) {
+		// Criar transação do tipo credito com o valor fornecido
+    	Transacao t = new Transacao(Transacao.TIPO_TRANSACAO_TRANSFERENCIA_CREDITO, valor);
+    	
+		// Adicionar transação a historico de conta
+    	transacoes.add(t);
+    	
+		// Atualizar saldo da conta
+    	saldo = Math.round((saldo + valor)*100)/100;
     }
 
     /**
