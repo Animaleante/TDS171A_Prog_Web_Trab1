@@ -3,9 +3,9 @@ package com.diogo.opet.conta;
 public class ContaPoupança extends Conta
 {
 
-    public ContaPoupança(long numeroConta)
+    public ContaPoupança(long numeroConta, double saldo)
     {
-        super(numeroConta);
+        super(Conta.TIPO_CONTA_POUPANCA, numeroConta, saldo);
     }
 
 }

@@ -74,5 +74,12 @@ public class Main
         // Verificar se é uma conta valida, e se não for, pedir novamente ou perguntar se quer sair
         // Escrever texto pedindo valor a ser transferido
         // Ler valor
+        // Criar transação do tipo debito com o valor fornecido
+        // Adicionar transação a historico de conta
+        // Atualizar saldo da conta
+        // Criar transação do tipo credito com o valor fornecido para a outra
+        // Adicionar transação a historico de conta
+        // Atualizar saldo da conta
+
     }
 }

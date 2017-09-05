@@ -9,15 +9,25 @@ public class Conta
     public static final int TIPO_CONTA_CORRENTE = 0;
     public static final int TIPO_CONTA_POUPANCA = 1;
 
-    protected long numeroConta = 0;
-    protected int tipoConta = -1;
-    protected double saldo = 0;
+    private long numeroConta = 0;
+    private int tipoConta = -1;
+    private double saldo = 0;
 
     protected List<Transacao> transacoes;
 
-    public Conta(long numeroConta)
+    protected Conta(int tipoConta, long numeroConta, double saldo)
     {
+        this.tipoConta = tipoConta;
         this.numeroConta = numeroConta;
+        this.saldo = saldo;
+    }
+
+    public void saque(double valor) {
+
+    }
+
+    public void deposito(double valor) {
+
     }
 
     /**
