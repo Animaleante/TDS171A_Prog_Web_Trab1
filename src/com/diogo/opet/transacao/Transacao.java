@@ -9,7 +9,7 @@ public class Transacao
 	public static final int TIPO_TRANSACAO_DEBITO = 0;
 	public static final int TIPO_TRANSACAO_CREDITO = 1;
 	public static final int TIPO_TRANSACAO_TRANSFERENCIA_DEBITO = 2;
-	public static final int TIPO_TRANSACAO_TRANSFERENCIA_CREDITO = 3;
+	public static final int TIPO_TRANSACAO_TRANSFERENCIA_CREDITO = 3; 
 	
 	public static int id = 0;
 	
@@ -35,7 +35,11 @@ public class Transacao
 		// - Horario
 		// - Valor
 		// - Tipo
-		System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - " + (this.tipo == Transacao.TIPO_TRANSACAO_DEBITO || this.tipo == Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO ? "Débito : -" : "Crédito: +") + df.format(this.val)+"$");
+		
+		if(this.tipo == TIPO_TRANSACAO_DEBITO || this.tipo == TIPO_TRANSACAO_CREDITO)
+			System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - " + (this.tipo == Transacao.TIPO_TRANSACAO_DEBITO ? "Débito : -" : "Crédito: +") + df.format(this.val)+"$");
+		else
+			System.out.println("#"+this.idTransacao + " - " + ft.format(this.data) + " - Transferência - " + (this.tipo == Transacao.TIPO_TRANSACAO_TRANSFERENCIA_DEBITO ? "Débito : -" : "Crédito: +") + df.format(this.val)+"$");
 	}
 
 	/**

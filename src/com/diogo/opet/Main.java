@@ -1,13 +1,11 @@
 package com.diogo.opet;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.diogo.opet.conta.Conta;
 import com.diogo.opet.conta.ContaCorrente;
 import com.diogo.opet.conta.ContaPoupanca;
-import com.diogo.opet.transacao.Transacao;
 import com.diogo.opet.utils.Leitor;
 
 import exceptions.FundosInsuficientesException;
