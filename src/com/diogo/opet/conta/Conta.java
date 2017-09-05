@@ -1,8 +1,10 @@
 package com.diogo.opet.conta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.diogo.opet.transacao.Transacao;
+import com.diogo.opet.transacao.Transferencia;
 
 public class Conta
 {
@@ -13,21 +15,25 @@ public class Conta
     private int tipoConta = -1;
     private double saldo = 0;
 
-    protected List<Transacao> transacoes;
+    private List<Transacao> transacoes;
+    private List<Transferencia> transferencias;
 
     protected Conta(int tipoConta, long numeroConta, double saldo)
     {
         this.tipoConta = tipoConta;
         this.numeroConta = numeroConta;
         this.saldo = saldo;
+        
+        this.transacoes = new ArrayList<Transacao>();
+        this.transferencias = new ArrayList<Transferencia>();
     }
 
     public void saque(double valor) {
-
+    	// TODO
     }
 
     public void deposito(double valor) {
-
+    	// TODO
     }
 
     /**
@@ -77,4 +83,32 @@ public class Conta
     {
         this.saldo = saldo;
     }
+
+	/**
+	 * @return the transacoes
+	 */
+	public List<Transacao> getTransacoes() {
+		return transacoes;
+	}
+
+	/**
+	 * @param transacoes the transacoes to set
+	 */
+	public void setTransacoes(List<Transacao> transacoes) {
+		this.transacoes = transacoes;
+	}
+
+	/**
+	 * @return the transferencias
+	 */
+	public List<Transferencia> getTransferencias() {
+		return transferencias;
+	}
+
+	/**
+	 * @param transferencias the transferencias to set
+	 */
+	public void setTransferencias(List<Transferencia> transferencias) {
+		this.transferencias = transferencias;
+	}
 }
