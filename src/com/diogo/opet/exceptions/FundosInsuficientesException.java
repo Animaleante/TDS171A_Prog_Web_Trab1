@@ -1,9 +1,9 @@
-package exceptions;
+package com.diogo.opet.exceptions;
 
 public class FundosInsuficientesException extends Exception {
 	
 	public FundosInsuficientesException() {
-		super("O saldo é insuficiente para esta operação.");
+		super("O saldo ï¿½ insuficiente para esta operaï¿½ï¿½o.");
 	}
 	
 	public FundosInsuficientesException(String message) {
